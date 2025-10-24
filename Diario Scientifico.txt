@@ -1,2 +1,5 @@
 17/10/2025
 Sito guida per machine learning: https://www.geeksforgeeks.org/machine-learning/machine-learning/
+
+24/10/2025
+Librerie utili: NumPy e scikit-learn
