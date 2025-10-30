@@ -17,7 +17,7 @@ model = LinearRegression()
 
 loo = LeaveOneOut()
 scores = cross_val_score(model, x, y, cv=loo, 
-                         scoring=make_scorer(mean_squared_error))
+                         scoring='neg_mean_squared_error')
 
 mse = -np.mean(scores)
 rmse = np.sqrt(mse)
