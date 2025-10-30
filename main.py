@@ -1,7 +1,7 @@
 import numpy as np
 from sklearn.linear_model import LinearRegression
 from sklearn.model_selection import LeaveOneOut, cross_val_score
-from sklearn.metrics import make_scorer, mean_squared_error
+from sklearn.metrics import mean_squared_error
 
 data = np.genfromtxt('10_7717_peerj_5665_dataYM2018_neuroblastoma.csv', 
                      delimiter=',', skip_header=1)
