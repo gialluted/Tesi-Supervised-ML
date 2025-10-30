@@ -1,9 +1,19 @@
 import numpy as np
 from sklearn.linear_model import LinearRegression
 
-x = np.array([5, 15, 25, 35, 45, 55]).reshape((-1, 1))
-y = np.array([5, 20, 14, 32, 22, 38])
+data = np.genfromtxt('10_7717_peerj_5665_dataYM2018_neuroblastoma.csv', 
+                     delimiter=',', skip_header=1)
+data = data[~np.isnan(data).any(axis=1)]
+x = data[:, :-1]
+y = data[:, 1]
 
+#np.set_printoptions(threshold=np.inf)
+#print(x)
+#print(y)
 
-print(x)
-print(y)
+model = LinearRegression().fit(x, y)
+
+#r_sq = model.score(x, y)
+#print(f"Coefficiente di determinazione: {r_sq}")
+#print(f"Intercetta: {model.intercept_}")
+#print(f"Coefficienti: {model.coef_}")
