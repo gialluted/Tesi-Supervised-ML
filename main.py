@@ -1,26 +1,23 @@
 import numpy as np
 from sklearn.linear_model import LinearRegression
-from sklearn.model_selection import LeaveOneOut, cross_val_score
-from sklearn.metrics import mean_squared_error
+from sklearn.model_selection import LeaveOneOut, cross_val_predict
+from sklearn.metrics import mean_squared_error, r2_score
 
 data = np.genfromtxt('10_7717_peerj_5665_dataYM2018_neuroblastoma.csv', 
-                     delimiter=',', skip_header=1)
+                     delimiter=',')
 data = data[~np.isnan(data).any(axis=1)]
-x = data[:, :-1]
-y = data[:, -1]
+input = data[:, :-1]
+output = data[:, -1]
 
 #np.set_printoptions(threshold=np.inf)
-#print(x)
-#print(y)
+#print(input)
+#print(output)
 
-model = LinearRegression()
-
-loo = LeaveOneOut()
-scores = cross_val_score(model, x, y, cv=loo, 
-                         scoring='neg_mean_squared_error')
-
-mse = -np.mean(scores)
+predictions = cross_val_predict(LinearRegression(), input, output, cv=LeaveOneOut())
+r2 = r2_score(output, predictions)
+mse = mean_squared_error(output, predictions)
 rmse = np.sqrt(mse)
 
-print(f"Errore Quadratico Medio (MSE): {mse:.4f}")
-print(f"Radice dell'Errore Quadratico Medio (RMSE): {rmse:.4f}")
+print(f"R-squared (R2) medio: {r2}")
+print(f"Errore Quadratico Medio (MSE): {mse}")
+print(f"Radice dell'Errore Quadratico Medio (RMSE): {rmse}")
