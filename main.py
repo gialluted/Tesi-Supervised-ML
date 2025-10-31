@@ -26,7 +26,10 @@ predictions = cross_val_predict(LinearRegression(), variabili, outcome, cv=Leave
 #print(f"Radice dell'Errore Quadratico Medio (RMSE): {rmse}")
 
 for i in range(len(predictions)):
-    predictions[i] = round(predictions[i])
+    if predictions[i] > 0.5:
+        predictions[i] = 1
+    else:
+        predictions[i] = 0
 
 #print(predictions)
 

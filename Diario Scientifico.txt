@@ -70,3 +70,5 @@ Per calcolare il tempo di esecuzione del programma basta usare il modulo time:
 start_time = time.time()
 ...
 print("--- %s seconds ---" % (time.time() - start_time))
+
+L'arrotondamento con round() è concettualmente sbagliato perciò bisogna necessariamente usare un if else con x>0.5
