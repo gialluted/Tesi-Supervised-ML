@@ -2,6 +2,9 @@ import numpy as np
 from sklearn.linear_model import LinearRegression
 from sklearn.model_selection import LeaveOneOut, cross_val_predict
 from sklearn.metrics import mean_squared_error, r2_score, matthews_corrcoef
+import time
+
+start = time.time()
 
 data = np.genfromtxt('10_7717_peerj_5665_dataYM2018_neuroblastoma.csv', 
                      delimiter=',')
@@ -29,3 +32,5 @@ for i in range(len(predictions)):
 
 mcc = matthews_corrcoef(outcome, predictions)
 print(f"Coefficiente di Correlazione di Matthews (MCC): {mcc}")
+
+print("Durata dell'esecuzione del programma: %s secondi" % (time.time() - start))
