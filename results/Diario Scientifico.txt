@@ -72,3 +72,7 @@ start_time = time.time()
 print("--- %s seconds ---" % (time.time() - start_time))
 
 L'arrotondamento con round() è concettualmente sbagliato perciò bisogna necessariamente usare un if else con x>0.5
+
+
+03/11/2025
+Sito tutorial per machine learning java: https://www.geeksforgeeks.org/machine-learning/machine-learning-with-java/
