@@ -1,13 +1,75 @@
-17/10/2025
-Sito teorico machine learning: https://www.geeksforgeeks.org/machine-learning/machine-learning/
+12/11/2025
+LinearRegression lr = new LinearRegression() per usare la regressione lineare
+Usiamo lr.buildClassifier(Instances data) per il training e double pred = lr.classifyInstance(test.instance(Instance instance)) per il testing
+
+Per calcolare la durata d'esecuzione usare System.nanoTime()
 
 
-23/10/2025
-Librerie utili: NumPy e scikit-learn
+10/11/2025
+Per valutare il modello deovremmo usare il metodo crossValidateModel() di weka ma nel nostro caso non è adeguato perché dobbiamo applicare una binarizzazzione dei dati e trovare mcc con regressione lineare
+Perciò dobbiamo implementare manualmente un ciclo che replica il loocv
+Fatto ciò dobbiamo binarizzare i dati ottenuti e poi calcolare manualmente il mcc
 
 
-24/10/2025
-Sito tutorial ML Python: https://realpython.com/linear-regression-in-python/#multiple-linear-regression-with-scikit-learn
+07/11/2025
+Usare CSVLoader per leggere i file di dati
+Usare data.removeIf(Instance::hasMissingValue); per rimuovere valori non numerici
+
+
+05/11/2025
+Per java bisogna usare la libreria weka
+
+
+03/11/2025
+Sito tutorial per machine learning java: https://www.geeksforgeeks.org/machine-learning/machine-learning-with-java/
+
+
+31/10/2025
+Codice per trovare il mcc:
+matthews_corrcoef(y, predictions)
+
+Per trovare il mcc non si può usare il codice precedente perché le predictions sono float, perciò bisogna arrotondarle
+
+Per calcolare il tempo di esecuzione del programma basta usare il modulo time:
+start_time = time.time()
+...
+print("--- %s seconds ---" % (time.time() - start_time))
+
+L'arrotondamento con round() è concettualmente sbagliato perciò bisogna necessariamente usare un if else con x>0.5
+
+
+30/10/2025
+Se voglio trovare sia mse che r2 devo usare cross_validate:
+scoring_metrics = ['neg_mean_squared_error', 'r2']
+cv_results = cross_validate(model, x, y, cv=loo, 
+                            scoring=scoring_metrics)
+mean_r2 = np.mean(cv_results['test_r2'])
+mean_mse = -np.mean(cv_results['test_neg_mean_squared_error'])
+
+Non si può applicare il codice precedente per trovare r2 con la loocv perché c'è un solo dato test ad ogni iterazione, bisogna fare così:
+y_predictions = cross_val_predict(model, x, y, cv=loo)
+mse = mean_squared_error(y, y_predictions)
+r2 = r2_score(y, y_predictions)
+
+
+29/10/2025
+Codice per implementare Leave-One-Out-Cross-Validation e ottenere mse:
+loo = LeaveOneOut()
+scores = cross_val_score(model, x, y, cv=loo, scoring='neg_mean_squared_error')
+mse = -np.mean(scores)
+rmse = np.sqrt(mse)
+(si può sostituire model con LinearRegression e loo con LeaveOneOut)
+(scoring='neg_mean_squared_error' serve per usare mse, in quanto di default viene usato r2)
+(questo fa si che i valori di scores vengano invertiti e perciò e poi necessario invertire anche mse)
+
+
+28/10/2025
+Codice per applicare modello di regressione lineare:
+model = LinearRegression().fit(x, y)
+
+Codice per predirre risultati:
+y_new = model.predict(x_new)
+y_new
 
 
 27/10/2025
@@ -26,73 +88,13 @@ Codice per stampare un array intero:
 np.set_printoptions(threshold=np.inf)
 
 
-28/10/2025
-Codice per applicare modello di regressione lineare:
-model = LinearRegression().fit(x, y)
-
-Codice per predirre risultati:
-y_new = model.predict(x_new)
-y_new
+24/10/2025
+Sito tutorial ML Python: https://realpython.com/linear-regression-in-python/#multiple-linear-regression-with-scikit-learn
 
 
-29/10/2025
-Codice per implementare Leave-One-Out-Cross-Validation e ottenere mse:
-loo = LeaveOneOut()
-scores = cross_val_score(model, x, y, cv=loo, scoring='neg_mean_squared_error')
-mse = -np.mean(scores)
-rmse = np.sqrt(mse)
-(si può sostituire model con LinearRegression e loo con LeaveOneOut)
-(scoring='neg_mean_squared_error' serve per usare mse, in quanto di default viene usato r2)
-(questo fa si che i valori di scores vengano invertiti e perciò e poi necessario invertire anche mse)
+23/10/2025
+Librerie utili: NumPy e scikit-learn
 
 
-30/20/2025
-Se voglio trovare sia mse che r2 devo usare cross_validate:
-scoring_metrics = ['neg_mean_squared_error', 'r2']
-cv_results = cross_validate(model, x, y, cv=loo, 
-                            scoring=scoring_metrics)
-mean_r2 = np.mean(cv_results['test_r2'])
-mean_mse = -np.mean(cv_results['test_neg_mean_squared_error'])
-
-Non si può applicare il codice precedente per trovare r2 con la loocv perché c'è un solo dato test ad ogni iterazione, bisogna fare così:
-y_predictions = cross_val_predict(model, x, y, cv=loo)
-mse = mean_squared_error(y, y_predictions)
-r2 = r2_score(y, y_predictions)
-
-
-31/10/2025
-Codice per trovare il mcc:
-matthews_corrcoef(y, predictions)
-
-Per trovare il mcc non si può usare il codice precedente perché le predictions sono float, perciò bisogna arrotondarle
-
-Per calcolare il tempo di esecuzione del programma basta usare il modulo time:
-start_time = time.time()
-...
-print("--- %s seconds ---" % (time.time() - start_time))
-
-L'arrotondamento con round() è concettualmente sbagliato perciò bisogna necessariamente usare un if else con x>0.5
-
-
-03/11/2025
-Sito tutorial per machine learning java: https://www.geeksforgeeks.org/machine-learning/machine-learning-with-java/
-
-
-05/11/2025
-Per java bisogna usare la libreria weka
-
-
-07/11/2025
-Usare CSVLoader per leggere i file di dati
-Usare data.removeIf(Instance::hasMissingValue); per rimuovere valori non numerici
-
-
-10/11/2025
-Per valutare il modello deovremmo usare il metodo crossValidateModel() di weka ma nel nostro caso non è adeguato perché dobbiamo applicare una binarizzazzione dei dati e trovare mcc con regressione lineare
-Perciò dobbiamo implementare manualmente un ciclo che replica il loocv
-Fatto ciò dobbiamo binarizzare i dati ottenuti e poi calcolare manualmente il mcc
-
-12/11/2025
-LinearRegression lr = new LinearRegression() per usare la regressione lineare
-Usiamo lr.buildClassifier(Instances data) per il training e double pred = lr.classifyInstance(test.instance(Instance instance)) per il testing
-Per calcolare la durata d'esecuzione usare System.nanoTime()
+17/10/2025
+Sito teorico machine learning: https://www.geeksforgeeks.org/machine-learning/machine-learning/
