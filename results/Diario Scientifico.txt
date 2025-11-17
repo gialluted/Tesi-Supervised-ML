@@ -76,3 +76,23 @@ L'arrotondamento con round() è concettualmente sbagliato perciò bisogna necess
 
 03/11/2025
 Sito tutorial per machine learning java: https://www.geeksforgeeks.org/machine-learning/machine-learning-with-java/
+
+
+05/11/2025
+Per java bisogna usare la libreria weka
+
+
+07/11/2025
+Usare CSVLoader per leggere i file di dati
+Usare data.removeIf(Instance::hasMissingValue); per rimuovere valori non numerici
+
+
+10/11/2025
+Per valutare il modello deovremmo usare il metodo crossValidateModel() di weka ma nel nostro caso non è adeguato perché dobbiamo applicare una binarizzazzione dei dati e trovare mcc con regressione lineare
+Perciò dobbiamo implementare manualmente un ciclo che replica il loocv
+Fatto ciò dobbiamo binarizzare i dati ottenuti e poi calcolare manualmente il mcc
+
+12/11/2025
+LinearRegression lr = new LinearRegression() per usare la regressione lineare
+Usiamo lr.buildClassifier(Instances data) per il training e double pred = lr.classifyInstance(test.instance(Instance instance)) per il testing
+Per calcolare la durata d'esecuzione usare System.nanoTime()
