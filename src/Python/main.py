@@ -1,10 +1,10 @@
+start = time.time()
+
 import numpy as np
 from sklearn.linear_model import LinearRegression
 from sklearn.model_selection import LeaveOneOut, cross_val_predict
 from sklearn.metrics import mean_squared_error, r2_score, matthews_corrcoef
 import time
-
-start = time.time()
 
 data = np.genfromtxt('data/10_7717_peerj_5665_dataYM2018_neuroblastoma.csv', 
                      delimiter=',')
