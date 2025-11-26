@@ -7,7 +7,7 @@ from sklearn.linear_model import LinearRegression
 from sklearn.model_selection import LeaveOneOut, cross_val_predict
 from sklearn.metrics import mean_squared_error, r2_score, matthews_corrcoef
 
-data = np.genfromtxt('data/10_7717_peerj_5665_dataYM2018_neuroblastoma.csv', 
+data = np.genfromtxt('../../data/10_7717_peerj_5665_dataYM2018_neuroblastoma.csv', 
                      delimiter=',')
 data = data[~np.isnan(data).any(axis=1)]
 variabili = data[:, :-1]
