@@ -1,4 +1,4 @@
-package org.example;
+// package org.example;
 
 import weka.classifiers.functions.LinearRegression;
 import weka.core.Instance;
@@ -29,7 +29,7 @@ public class proj {
 
         long start = System.nanoTime();
 
-        String filePath = "data/10_7717_peerj_5665_dataYM2018_neuroblastoma.csv";
+        String filePath = "../data/10_7717_peerj_5665_dataYM2018_neuroblastoma.csv";
         Instances data = letturaCSV(filePath);
 
         int numSamples = data.numInstances();
