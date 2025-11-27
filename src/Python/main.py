@@ -2,6 +2,11 @@ import time
 
 start = time.time()
 
+from codecarbon import EmissionsTracker
+
+tracker = EmissionsTracker()
+tracker.start()
+
 import numpy as np
 from sklearn.linear_model import LinearRegression
 from sklearn.model_selection import LeaveOneOut, cross_val_predict
@@ -40,5 +45,9 @@ for i in range(len(predictions)):
 
 mcc = matthews_corrcoef(outcome, predictions)
 print(f"Coefficiente di Correlazione di Matthews (MCC): {mcc}")
+
+tracker.stop()
+energia_kwh = tracker.final_emissions_data.energy_consumed
+print(f"Consumo Energetico: {energia_kwh:.8f} kWh")
 
 print("Durata dell'esecuzione del programma: %s secondi" % (time.time() - start))
