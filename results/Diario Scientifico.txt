@@ -3,6 +3,24 @@ Per avviare il file java andare con cd nella cartella bin e usare il comando:
 java --add-opens java.base/java.lang=ALL-UNNAMED -cp ".;../../src/java/weka.jar;../../src/java/mtj.jar;../../src/java/arpack_combined.jar;../../src/java/core.jar" proj
 
 
+22/11/2025
+Per compilare file c++ spostarsi nella cartella c++ in src e scrivere:
+g++ -I "(percorso_cartella_eigen)" -O3 main.cpp -o programma.exe
+
+Per avviarlo scrivere:
+.\programma.exe
+
+
+21/11/2025
+Per la regressione lineare in c++ serve la libreria Eigen
+
+
+19/11/2025
+Per calcolare tempo d'esecuzione del programma in c++ usare la libreria chrono:
+auto start = std::chrono::high_resolution_clock::now();
+auto end = std::chrono::high_resolution_clock::now();
+
+
 12/11/2025
 LinearRegression lr = new LinearRegression() per usare la regressione lineare
 Usiamo lr.buildClassifier(Instances data) per il training e double pred = lr.classifyInstance(test.instance(Instance instance)) per il testing
