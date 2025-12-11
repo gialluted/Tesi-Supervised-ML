@@ -10,6 +10,7 @@
                 "${file}",
                 "-o",
                 "${fileDirname}\\${fileBasenameNoExtension}.exe"
+                "-IC:/Librerie/eigen-5.0.0/"
             ],
             "options": {
                 "cwd": "C:\\msys64\\ucrt64\\bin"
