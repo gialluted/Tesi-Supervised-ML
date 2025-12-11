@@ -6,6 +6,12 @@ Perciò o si esclude anche in python, o si utilizza un comando nella powershell 
 04/12/2025
 Anche in c++ devo manualmente cambiare i valori float in interi binari e inserire il calcolo per l'mcc
 
+Per stampare diverse cifre decimali:
+#include <limits>
+#include <iomanip>
+//cout << setprecision(numeric_limits<double>::max_digits10) << tuo_numero << endl;
+//cout << fixed << setprecision(4);
+
 
 01/12/2025
 Devo anche qui creare un doppio ciclio for per la LOOCV
