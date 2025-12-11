@@ -2,6 +2,7 @@
 Non c'è un modo per includere il caricamento delle librerie nel calcolo del tempo in c++ e java
 Perciò o si esclude anche in python, o si utilizza un comando nella powershell che calcoli anche il processo di compilazione
 
+LibreOffice
 
 04/12/2025
 Anche in c++ devo manualmente cambiare i valori float in interi binari e inserire il calcolo per l'mcc
