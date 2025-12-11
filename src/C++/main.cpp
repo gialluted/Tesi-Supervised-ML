@@ -9,6 +9,27 @@
 using namespace std;
 using namespace Eigen;
 
+// Funzione per calcolare il coefficiente di Matthews (MCC)
+double calculate_mcc(const VectorXd& y_true, const VectorXd& y_pred_binary) {
+    long long TP = 0, TN = 0, FP = 0, FN = 0;
+
+    for (int i = 0; i < y_true.size(); ++i) {
+        bool actual = (y_true(i) == 1.0);
+        bool pred = (y_pred_binary(i) == 1.0);
+
+        if (actual && pred) TP++;
+        else if (!actual && !pred) TN++;
+        else if (!actual && pred) FP++;
+        else if (actual && !pred) FN++;
+    }
+
+    double numerator = (double)TP * TN - (double)FP * FN;
+    double denominator = sqrt(((double)TP + FP) * ((double)TP + FN) * ((double)TN + FP) * ((double)TN + FN));
+
+    if (denominator == 0) return 0.0;
+    return numerator / denominator;
+}
+
 int main() {
     auto start = std::chrono::high_resolution_clock::now();
 
@@ -73,8 +94,47 @@ int main() {
 
     //cout << "Dimensioni X: " << X.rows() << "x" << X.cols() << endl;
     //cout << "Dimensioni y: " << y.size() << endl;
+
+    // 2. Leave-One-Out Cross Validation
+    VectorXd predictions(n_samples);
+
+    // Linear Regression: beta = (X^T * X)^-1 * X^T * y
+    // Per LOOCV iteriamo su ogni campione
+    for (int i = 0; i < n_samples; ++i) {
+        // Costruiamo training set escludendo l'indice i
+        // In Eigen, per efficienza, sarebbe meglio usare block operations, 
+        // ma qui ricreiamo le matrici per chiarezza (simile alla logica Python)
+        
+        MatrixXd X_train(n_samples - 1, n_features + 1);
+        VectorXd y_train(n_samples - 1);
+        
+        int current_idx = 0;
+        for (int j = 0; j < n_samples; ++j) {
+            if (i == j) continue;
+            X_train.row(current_idx) = X.row(j);
+            y_train(current_idx) = y(j);
+            current_idx++;
+        }
+
+        // Addestramento (Risoluzione OLS)
+        // Usiamo LDLT decomposition per stabilità numerica e velocità rispetto all'inversione diretta
+        VectorXd beta = (X_train.transpose() * X_train).ldlt().solve(X_train.transpose() * y_train);
+
+        // Predizione sul campione escluso
+        double pred = X.row(i) * beta;
+        predictions(i) = pred;
+    }
+
+    // 3. Thresholding (> 0.5 diventa 1, altrimenti 0)
+    VectorXd binary_predictions(n_samples);
+    for (int i = 0; i < n_samples; ++i) {
+        binary_predictions(i) = (predictions(i) > 0.5) ? 1.0 : 0.0;
+    }
+
+    // 4. Calcolo MCC
+    double mcc = calculate_mcc(y, binary_predictions);
     
-    file.close();
+    cout << "Coefficiente di Correlazione di Matthews (MCC): " << mcc << endl;
 
     auto end = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double> elapsed = end - start;

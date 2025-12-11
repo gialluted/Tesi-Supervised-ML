@@ -3,7 +3,8 @@
         {
             "name": "Win32",
             "includePath": [
-                "${workspaceFolder}/**"
+                "${workspaceFolder}/**",
+                "C:\\Librerie\\eigen-5.0.0"
             ],
             "defines": [
                 "_DEBUG",
