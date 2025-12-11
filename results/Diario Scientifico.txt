@@ -1,3 +1,20 @@
+08/12/2025
+Non c'è un modo per includere il caricamento delle librerie nel calcolo del tempo in c++ e java
+Perciò o si esclude anche in python, o si utilizza un comando nella powershell che calcoli anche il processo di compilazione
+
+
+04/12/2025
+Anche in c++ devo manualmente cambiare i valori float in interi binari e inserire il calcolo per l'mcc
+
+
+01/12/2025
+Devo anche qui creare un doppio ciclio for per la LOOCV
+
+
+29/11/2025
+In c++ devo leggere il file csv e trasformare i dati in matrici eigen da poter poi utilizzare nelle operazioni matematiche
+
+
 25/11/2025
 Per avviare il file java andare con cd nella cartella bin e usare il comando:
 java --add-opens java.base/java.lang=ALL-UNNAMED -cp ".;../../src/java/weka.jar;../../src/java/mtj.jar;../../src/java/arpack_combined.jar;../../src/java/core.jar" proj

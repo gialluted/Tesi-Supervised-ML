@@ -32,13 +32,7 @@ double calculate_mcc(const VectorXd& y_true, const VectorXd& y_pred_binary) {
 int main() {
     auto start = std::chrono::high_resolution_clock::now();
 
-    string filename = "../../data/10_7717_peerj_5665_dataYM2018_neuroblastoma.csv";
-    ifstream file(filename);
-    
-    if (!file.is_open()) {
-        cerr << "Errore: Impossibile aprire il file " << filename << endl;
-        return 1;
-    }
+    ifstream file("../../data/10_7717_peerj_5665_dataYM2018_neuroblastoma.csv");
 
     vector<vector<double>> raw_data;
     string line, cell;
