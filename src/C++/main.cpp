@@ -4,6 +4,8 @@
 #include <sstream>
 #include <string>
 #include <chrono>
+#include <limits>
+#include <iomanip>
 #include <Eigen/Dense>
 
 using namespace std;
@@ -116,12 +118,12 @@ int main() {
 
     double mcc = calculate_mcc(y, binary_predictions);
     
-    cout << "Coefficiente di Correlazione di Matthews (MCC): " << mcc << endl;
+    cout << setprecision(numeric_limits<double>::max_digits10) << "(C++) Coefficiente di Correlazione di Matthews (MCC): " << mcc << endl;
 
     auto end = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double> elapsed = end - start;
     
-    cout << "Durata dell'esecuzione del programma: " << elapsed.count() << " secondi" << endl;
+    cout << "(C++) Durata dell'esecuzione del programma: " << elapsed.count() << " secondi" << endl;
 
     return 0;
 }
