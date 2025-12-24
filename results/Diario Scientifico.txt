@@ -1,8 +1,49 @@
+24/12/2025
+Per calcolare l'mcc  usare il comando matthews_correlation
+Questo comando ha bisogno che i dati non siano numeri ma OrderedFactor, un tipo di dato che MLJ usa per categorizzare i dati
+Bisogna perciò usare coerce
+
+Per calcolare il tempo d'esecuzione usare il comando time()
+
+
+22/12/2025
+Per la loocv devo usare un ciclo for usando ogni volta i comandi:
+fit!(mach, rows=train_idx, verbosity=0) per allenare i dati di training
+predictions[i] = predict(mach, rows=[i])[1] per fare la predizione sul dato di test
+
+Ovviamente bisogna poi binarizzare i risultati
+
+
+19/12/2025
+Ho scelto di utilizzare MLJ per rendere il codice più corto e leggibile
+
+Per il calcolo della regressione lineare bisogna utilizzare MLJ e MLJLinearModels:
+LinearRegressor = @load LinearRegressor pkg=MLJLinearModels verbosity=0
+
+Bisogna poi collegare i dati al modello con il comando:
+mach = machine(model, X, y)
+
+
+15/12/2025
+Per la regression lineare si può usare la libreria GLM o MLJ
+GLM è più semplice ma con meno comandi automatizzatti
+MLJ è più complessa/pesante ma ha più metodi utili da poter utilizzare
+
+Dopo aver convertito il csv in matrici con DataFrames devo anche usare il comando coerce
+Questo perché di base julia legge i dati nel file come interi ma per eseguire le funzioni di regressione lineare i dati devono essere numeri reali (Continuous)
+
+
+12/12/2025
+In julia utilizzare la libreria csv per leggere il file e DataFrames per la conversione in matrici/tabelle
+
+Per leggere il file usare df = CSV.read(file_path, DataFrame, header=true) (header=true serve per non leggere la prima riga)
+Poi usare per togliere dropmissing!(df) per rimuovere i valori non numerici
+
+
 08/12/2025
 Non c'è un modo per includere il caricamento delle librerie nel calcolo del tempo in c++ e java
 Perciò o si esclude anche in python, o si utilizza un comando nella powershell che calcoli anche il processo di compilazione
 
-LibreOffice
 
 04/12/2025
 Anche in c++ devo manualmente cambiare i valori float in interi binari e inserire il calcolo per l'mcc
