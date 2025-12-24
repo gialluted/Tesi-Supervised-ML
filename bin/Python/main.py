@@ -1,13 +1,17 @@
+#from codecarbon import EmissionsTracker
+
+#tracker = EmissionsTracker()
+#tracker.start()
+
 import time
-
-start = time.time()
-
 import numpy as np
 from sklearn.linear_model import LinearRegression
 from sklearn.model_selection import LeaveOneOut, cross_val_predict
 from sklearn.metrics import mean_squared_error, r2_score, matthews_corrcoef
 
-data = np.genfromtxt('../../data/10_7717_peerj_5665_dataYM2018_neuroblastoma.csv', 
+start = time.time()
+
+data = np.genfromtxt('data/10_7717_peerj_5665_dataYM2018_neuroblastoma.csv', 
                      delimiter=',')
 data = data[~np.isnan(data).any(axis=1)]
 variabili = data[:, :-1]
@@ -42,3 +46,7 @@ mcc = matthews_corrcoef(outcome, predictions)
 print(f"Coefficiente di Correlazione di Matthews (MCC): {mcc}")
 
 print("Durata dell'esecuzione del programma: %s secondi" % (time.time() - start))
+
+#tracker.stop()
+#energia_kwh = tracker.final_emissions_data.energy_consumed
+#print(f"Consumo Energetico: {energia_kwh:.8f} kWh")
