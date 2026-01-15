@@ -1,3 +1,7 @@
+08/01/2026
+Sito utile per imparare R: https://www.geeksforgeeks.org/r-language/r-tutorial/
+
+
 24/12/2025
 Per calcolare l'mcc  usare il comando matthews_correlation
 Questo comando ha bisogno che i dati non siano numeri ma OrderedFactor, un tipo di dato che MLJ usa per categorizzare i dati
