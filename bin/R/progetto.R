@@ -15,11 +15,11 @@ model <- train(X, y, method = "lm", trControl = ctrl)
 
 predictions <- model$pred$pred
 
-y_pred_binary <- ifelse(predictions > 0.5, 1, 0)
+binary_predictions <- ifelse(predictions > 0.5, 1, 0)
 
 y_ordered <- y[model$pred$rowIndex]
 
-mcc <- mcc(preds = y_pred_binary, actuals = y)
+mcc <- mcc(preds = binary_predictions, actuals = y_ordered)
 cat(sprintf("Coefficiente di Correlazione di Matthews (MCC): %.15f\n", mcc))
 
 end_time <- Sys.time()
