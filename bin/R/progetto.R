@@ -20,7 +20,7 @@ binary_predictions <- ifelse(predictions > 0.5, 1, 0)
 y_ordered <- y[model$pred$rowIndex]
 
 mcc <- mcc(preds = binary_predictions, actuals = y_ordered)
-cat(sprintf("Coefficiente di Correlazione di Matthews (MCC): %f\n", mcc))
+cat(sprintf("Coefficiente di Correlazione di Matthews (MCC): %.15f\n", mcc))
 
 end_time <- Sys.time()
 duration <- as.numeric(difftime(end_time, start_time, units = "secs"))
