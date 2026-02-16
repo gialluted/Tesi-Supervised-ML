@@ -1,5 +1,14 @@
-library(caret)
-library(mltools)
+packages = c("caret", "mltools")
+
+package.check <- lapply(
+  packages,
+  FUN = function(x) {
+    if (!require(x, character.only = TRUE)) {
+      install.packages(x, dependencies = TRUE)
+      library(x, character.only = TRUE)
+    }
+  }
+)
 
 start_time <- Sys.time()
 
