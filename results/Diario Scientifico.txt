@@ -1,3 +1,28 @@
+24/02/2026
+Per sostituire i valori nulli all'interno del dataset bisogna creare un ciclo che controlla per ogni colonna se ci sono valori nulli e nel caso li sostituisce con media o mediana in base al tipo di dato
+
+
+19/02/2026
+Un'alternativa è HWiNFO64
+
+
+18/02/2026
+Su windows invece si potrebbe utilizzare l'applicazione Intel Power Gadget
+
+
+13/02/2026
+Un altro metodo è l'utilizzo di comandi su linux come ad esempio:
+perf stat -e power/energy-pkg/ ./programma
+
+
+06/02/2026
+Per calcolare il consumo energetico un metodo è usare la libreria codecarbon di Python con scripts per gli altri linguaggi
+
+
+16/01/2026
+Per R bisogna usare le librerie caret e mltools
+
+
 08/01/2026
 Sito utile per imparare R: https://www.geeksforgeeks.org/r-language/r-tutorial/
 
