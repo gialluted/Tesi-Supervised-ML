@@ -68,10 +68,10 @@ for col_idx in 1:(ncol(data) - 1)
     end
 end
 
-y_raw = data[:, end]
-X_raw = select(data, Not(ncol(data)))
-y = coerce(y_raw, Continuous)
-X = coerce(X_raw, Count => Continuous)
+y = data[:, end]
+X = select(data, Not(ncol(data)))
+outcome = coerce(y, Continuous)
+variabili = coerce(X, Count => Continuous)
 
 # println(X)
 # println(y)
@@ -79,8 +79,8 @@ X = coerce(X_raw, Count => Continuous)
 LinearRegressor = @load LinearRegressor pkg=MLJLinearModels verbosity=0
 model = LinearRegressor()
 
-mach = machine(model, X, y)
-n = length(y)
+mach = machine(model, variabili, outcome)
+n = length(outcome)
 predictions = zeros(n)
 
 for i in 1:n
@@ -91,7 +91,7 @@ end
 
 y_pred_class = [pred > 0.5 ? 1 : 0 for pred in predictions]
 
-y_true_cat = coerce(Int.(round.(y)), OrderedFactor)
+y_true_cat = coerce(Int.(round.(outcome)), OrderedFactor)
 y_pred_cat = coerce(y_pred_class, OrderedFactor)
 
 mcc = matthews_correlation(y_pred_cat, y_true_cat)

@@ -17,8 +17,6 @@ for (pacchetto in librerie) {
   }
 }
 
-
-
 start_time <- Sys.time()
 
 data <- read.csv("data/10_7717_peerj_5665_dataYM2018_neuroblastoma.csv", header = TRUE)
@@ -58,18 +56,18 @@ for (col_idx in 1:(ncol(data) - 1)) {
   data[is.na(data[, col_idx]), col_idx] <- valore_imputazione
 }
 
-X <- data[, -ncol(data)]
-y <- data[, ncol(data)]
+variabili <- data[, -ncol(data)]
+outcome <- data[, ncol(data)]
 
 ctrl <- trainControl(method = "LOOCV", savePredictions = "final")
 
-model <- train(X, y, method = "lm", trControl = ctrl)
+model <- train(variabili, outcome, method = "lm", trControl = ctrl)
 
 predictions <- model$pred$pred
 
 binary_predictions <- ifelse(predictions > 0.5, 1, 0)
 
-y_ordered <- y[model$pred$rowIndex]
+y_ordered <- outcome[model$pred$rowIndex]
 
 mcc <- mcc(preds = binary_predictions, actuals = y_ordered)
 cat(sprintf("Coefficiente di Correlazione di Matthews (MCC): %.15f\n", mcc))

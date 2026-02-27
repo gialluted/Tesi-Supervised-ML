@@ -47,7 +47,7 @@ for indice_colonna in range(variabili.shape[1]):
     numero_mancanti = np.isnan(colonna).sum()
     
     if numero_mancanti == 0:
-        continue  # Niente da imputare
+        continue
     
     # Verifica se la colonna è binaria (contiene solo 0 e 1)
     valori_unici = np.unique(valori_validi)
