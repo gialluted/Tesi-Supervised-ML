@@ -1,14 +1,23 @@
-packages = c("caret", "mltools")
+librerie <- c("caret", "mltools")
 
-package.check <- lapply(
-  packages,
-  FUN = function(x) {
-    if (!require(x, character.only = TRUE)) {
-      install.packages(x, dependencies = TRUE)
-      library(x, character.only = TRUE)
-    }
+for (pacchetto in librerie) {
+  if (!require(pacchetto, character.only = TRUE, quietly = TRUE)) {
+    cat(sprintf("%s non trovato. Installazione in corso...\n", pacchetto))
+    
+    tryCatch({
+      install.packages(pacchetto, dependencies = TRUE, repos = "https://cran.r-project.org")
+      library(pacchetto, character.only = TRUE)
+      cat(sprintf("%s installato e caricato con successo\n", pacchetto))
+    }, error = function(e) {
+      cat(sprintf("Errore nell'installazione di %s: %s\n", pacchetto, conditionMessage(e)))
+      quit(status = 1)
+    })
+  } else {
+    cat(sprintf("%s è già installato\n", pacchetto))
   }
-)
+}
+
+
 
 start_time <- Sys.time()
 

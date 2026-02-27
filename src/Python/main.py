@@ -1,15 +1,19 @@
 import subprocess
 import sys
 
-librerie_necessarie = ["numpy", "scikit-learn"]
+libraries = ["numpy", "scikit-learn"]
 
-for libreria in librerie_necessarie:
+for lib in libraries:
     try:
-        __import__(libreria)
+        __import__(lib)
+        print(f"✓ {lib} è già installato")
     except ImportError:
+        print(f"✗ {lib} non trovato. Installazione in corso...")
         try:
-            subprocess.check_call([sys.executable, "-m", "pip", "install", libreria])
+            subprocess.check_call([sys.executable, "-m", "pip", "install", lib])
+            print(f"✓ {lib} installato con successo")
         except subprocess.CalledProcessError as e:
+            print(f"✗ Errore nell'installazione di {lib}: {e}")
             sys.exit(1)
 
 import time
