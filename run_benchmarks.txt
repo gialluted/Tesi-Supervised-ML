@@ -1,0 +1,39 @@
+@echo off
+
+set POWERLOG="C:\Program Files\Intel\Power Gadget 3.0\PowerLog3.0.exe"
+set RES=100
+
+echo language,run,file > results\summary.csv
+
+echo Running C++
+for /l %%i in (1,1,10) do (
+ %POWERLOG% -resolution %RES% -file results\cpp_%%i.csv -cmd "cmd /c cd bin\C++ && programma.exe"
+ echo cpp,%%i,cpp_%%i.csv >> results\summary.csv
+)
+
+echo Running Python
+for /l %%i in (1,1,10) do (
+ %POWERLOG% -resolution %RES% -file results\python_%%i.csv -cmd "cmd /c cd bin\Python && python main.py"
+ echo python,%%i,python_%%i.csv >> results\summary.csv
+)
+
+echo Running Java
+for /l %%i in (1,1,10) do (
+ %POWERLOG% -resolution %RES% -file results\java_%%i.csv -cmd "cmd /c cd java && java Program"
+ echo java,%%i,java_%%i.csv >> results\summary.csv
+)
+
+echo Running R
+for /l %%i in (1,1,10) do (
+ %POWERLOG% -resolution %RES% -file results\r_%%i.csv -cmd "cmd /c cd r && Rscript program.R"
+ echo r,%%i,r_%%i.csv >> results\summary.csv
+)
+
+echo Running Julia
+for /l %%i in (1,1,10) do (
+ %POWERLOG% -resolution %RES% -file results\julia_%%i.csv -cmd "cmd /c cd julia && julia program.jl"
+ echo julia,%%i,julia_%%i.csv >> results\summary.csv
+)
+
+echo Benchmark completato
+pause

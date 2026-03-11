@@ -24,7 +24,7 @@ from sklearn.metrics import mean_squared_error, r2_score, matthews_corrcoef
 
 start = time.time()
 
-data = np.genfromtxt('data/10_7717_peerj_5665_dataYM2018_neuroblastoma.csv', 
+data = np.genfromtxt('C:\\Users\\giall\\Documents\\GitHub\\Tesi-Supervised-ML\\data\\10_7717_peerj_5665_dataYM2018_neuroblastoma.csv', 
                      delimiter=',', skip_header=1)
 
 variabili = data[:, :-1]
