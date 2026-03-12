@@ -1,13 +1,3 @@
-/**
- * Analisi predittiva su dati di neuroblastoma usando Regressione Lineare
- * con validazione Leave-One-Out e calcolo del coefficiente MCC
- * 
- * Con gestione valori mancanti:
- * - Outcome: rimuove righe con valori mancanti (NON imputa mai)
- * - Caratteristiche binarie (0/1): imputazione con mediana
- * - Caratteristiche reali: imputazione con media
- */
-
 #include <iostream>
 #include <vector>
 #include <fstream>
@@ -22,9 +12,6 @@
 using namespace std;
 using namespace Eigen;
 
-/**
- * Verifica se una colonna contiene solo valori binari (0 e 1)
- */
 bool e_colonna_binaria(const vector<double>& colonna) {
     for (double valore : colonna) {
         if (!isnan(valore) && valore != 0.0 && valore != 1.0) {
@@ -34,9 +21,6 @@ bool e_colonna_binaria(const vector<double>& colonna) {
     return true;
 }
 
-/**
- * Calcola la media dei valori non-NaN
- */
 double calcola_media(const vector<double>& colonna) {
     double somma = 0.0;
     int conteggio = 0;
@@ -51,9 +35,6 @@ double calcola_media(const vector<double>& colonna) {
     return conteggio > 0 ? somma / conteggio : 0.0;
 }
 
-/**
- * Calcola la mediana dei valori non-NaN
- */
 double calcola_mediana(const vector<double>& colonna) {
     vector<double> valori_validi;
     
@@ -75,9 +56,6 @@ double calcola_mediana(const vector<double>& colonna) {
     }
 }
 
-/**
- * Calcola il coefficiente di Matthews (MCC)
- */
 double calcola_mcc(const VectorXd& valori_reali, const VectorXd& valori_predetti) {
     long long veri_positivi = 0, veri_negativi = 0;
     long long falsi_positivi = 0, falsi_negativi = 0;
@@ -110,26 +88,23 @@ double calcola_mcc(const VectorXd& valori_reali, const VectorXd& valori_predetti
 }
 
 int main() {
-    cout << "=== Analisi Neuroblastoma con Regressione Lineare ===" << endl << endl;
 
     auto tempo_inizio = chrono::high_resolution_clock::now();
 
     const string percorso_file = "C:\\Users\\giall\\Documents\\GitHub\\Tesi-Supervised-ML\\data\\10_7717_peerj_5665_dataYM2018_neuroblastoma.csv";
     
-    cout << "Caricamento dati..." << endl;
     ifstream file(percorso_file);
 
     if (!file.is_open()) {
-        cerr << "✗ Errore: impossibile aprire il file " << percorso_file << endl;
+        cerr << "Errore: impossibile aprire il file " << percorso_file << endl;
         return 1;
     }
 
     vector<vector<double>> dati_grezzi;
     string riga, cella;
-    bool prima_riga = true;  // Per saltare l'header
+    bool prima_riga = true;
     
     while (getline(file, riga)) {
-        // Salta la prima riga (header)
         if (prima_riga) {
             prima_riga = false;
             continue;
@@ -143,7 +118,6 @@ int main() {
                 double valore = stod(cella);
                 riga_corrente.push_back(valore);
             } catch (...) {
-                // Se non riesce a convertire, mette NaN
                 riga_corrente.push_back(NAN);
             }
         }
@@ -156,19 +130,13 @@ int main() {
     file.close();
 
     if (dati_grezzi.empty()) {
-        cerr << "✗ Errore: nessun dato trovato nel file." << endl;
+        cerr << "Errore: nessun dato trovato nel file." << endl;
         return 1;
     }
 
-    cout << "✓ File caricato con successo" << endl;
-
     int numero_righe_originale = dati_grezzi.size();
     int numero_colonne = dati_grezzi[0].size();
-    
-    cout << "Dataset originale: " << numero_righe_originale << " righe, " 
-         << numero_colonne << " colonne" << endl;
 
-    // IMPORTANTE: Rimuovi le righe dove l'OUTCOME (ultima colonna) è mancante
     int colonna_outcome = numero_colonne - 1;
     vector<vector<double>> dati_puliti;
     int righe_rimosse = 0;
@@ -181,15 +149,9 @@ int main() {
         }
     }
     
-    if (righe_rimosse > 0) {
-        cout << "⚠  Rimozione di " << righe_rimosse << " righe con outcome mancante..." << endl;
-        cout << "✓ Righe rimanenti: " << dati_puliti.size() << endl;
-    }
-    
-    dati_grezzi = dati_puliti;  // Aggiorna i dati
+    dati_grezzi = dati_puliti;
     int numero_righe = dati_grezzi.size();
 
-    // Conta valori mancanti nelle caratteristiche
     int mancanti_caratteristiche = 0;
     for (int riga = 0; riga < numero_righe; riga++) {
         for (int col = 0; col < numero_colonne - 1; col++) {
@@ -199,21 +161,12 @@ int main() {
         }
     }
     
-    cout << "Valori mancanti nelle caratteristiche: " << mancanti_caratteristiche << endl;
-    cout << "Valori mancanti nell'outcome: 0 (righe già rimosse)" << endl << endl;
-
-    // IMPUTAZIONE DEI VALORI MANCANTI (solo caratteristiche, MAI outcome)
-    cout << "Imputazione dei valori mancanti nelle caratteristiche..." << endl;
-    
-    // Per ogni colonna (esclusa l'ultima che è l'outcome)
     for (int col = 0; col < numero_colonne - 1; col++) {
-        // Estrae la colonna
         vector<double> colonna;
         for (int riga = 0; riga < numero_righe; riga++) {
             colonna.push_back(dati_grezzi[riga][col]);
         }
         
-        // Conta i valori mancanti
         int numero_mancanti = 0;
         for (double valore : colonna) {
             if (isnan(valore)) numero_mancanti++;
@@ -221,7 +174,6 @@ int main() {
         
         if (numero_mancanti == 0) continue;
         
-        // Determina se è binaria
         bool e_binaria = e_colonna_binaria(colonna);
         double valore_per_imputazione;
         string tipo_imputazione;
@@ -234,26 +186,16 @@ int main() {
             tipo_imputazione = "media";
         }
         
-        // Sostituisci i NaN
         for (int riga = 0; riga < numero_righe; riga++) {
             if (isnan(dati_grezzi[riga][col])) {
                 dati_grezzi[riga][col] = valore_per_imputazione;
             }
         }
-        
-        cout << "  Colonna " << col << ": " << numero_mancanti 
-             << " valori → " << tipo_imputazione 
-             << " = " << fixed << setprecision(4) << valore_per_imputazione << endl;
     }
 
     int numero_campioni = dati_grezzi.size();
     int numero_caratteristiche = numero_colonne - 1;
-    
-    cout << "\n✓ Imputazione completata" << endl;
-    cout << "Dataset finale: " << numero_campioni << " campioni, " 
-         << numero_caratteristiche << " caratteristiche" << endl << endl;
 
-    // Prepara le matrici per Eigen
     MatrixXd X(numero_campioni, numero_caratteristiche + 1);
     VectorXd y(numero_campioni);
 
@@ -261,21 +203,13 @@ int main() {
         for (int j = 0; j < numero_caratteristiche; ++j) {
             X(i, j) = dati_grezzi[i][j];
         }
-        X(i, numero_caratteristiche) = 1.0;  // Colonna di intercetta
+        X(i, numero_caratteristiche) = 1.0;
         y(i) = dati_grezzi[i][numero_caratteristiche];
     }
 
-    // Esegue validazione Leave-One-Out
-    cout << "Esecuzione validazione Leave-One-Out..." << endl;
-    cout << "(Questo potrebbe richiedere alcuni minuti...)" << endl;
     VectorXd predizioni(numero_campioni);
 
     for (int i = 0; i < numero_campioni; ++i) {
-        // Mostra progresso
-        if (i > 0 && i % (numero_campioni / 10) == 0) {
-            cout << "  Progresso: " << (i * 100 / numero_campioni) << "%" << endl;
-        }
-        
         MatrixXd X_addestramento(numero_campioni - 1, numero_caratteristiche + 1);
         VectorXd y_addestramento(numero_campioni - 1);
         
@@ -293,11 +227,7 @@ int main() {
 
         predizioni(i) = X.row(i).dot(beta);
     }
-    
-    cout << "✓ Validazione completata" << endl << endl;
 
-    // Binarizza le predizioni
-    cout << "Binarizzazione delle predizioni..." << endl;
     VectorXd predizioni_binarie(numero_campioni);
     int predetti_positivi = 0, predetti_negativi = 0;
     
@@ -305,20 +235,12 @@ int main() {
         predizioni_binarie(i) = (predizioni(i) > 0.5) ? 1.0 : 0.0;
         if (predizioni_binarie(i) == 1.0) predetti_positivi++; else predetti_negativi++;
     }
-    
-    cout << "  Predizioni: " << predetti_positivi << " positivi, " 
-         << predetti_negativi << " negativi" << endl;
-    
-    // Conta valori reali
+
     int reali_positivi = 0, reali_negativi = 0;
     for (int i = 0; i < numero_campioni; ++i) {
         if (y(i) > 0.5) reali_positivi++; else reali_negativi++;
     }
-    cout << "  Valori reali: " << reali_positivi << " positivi, " 
-         << reali_negativi << " negativi" << endl << endl;
 
-    // Calcola MCC
-    // Assicurati che y sia binario
     VectorXd y_binario(numero_campioni);
     for (int i = 0; i < numero_campioni; ++i) {
         y_binario(i) = (y(i) > 0.5) ? 1.0 : 0.0;
@@ -326,17 +248,13 @@ int main() {
     
     double mcc = calcola_mcc(y_binario, predizioni_binarie);
     
-    cout << string(60, '=') << endl;
     cout << fixed << setprecision(15);
     cout << "Coefficiente di Correlazione di Matthews (MCC): " << mcc << endl;
-    cout << string(60, '=') << endl;
 
     auto tempo_fine = chrono::high_resolution_clock::now();
     chrono::duration<double> durata = tempo_fine - tempo_inizio;
     
-    cout << setprecision(4);
-    cout << "\n⏱️  Durata dell'esecuzione: " << durata.count() << " secondi" << endl;
-    cout << "\n✓ Analisi completata con successo!" << endl << endl;
+    cout << "\n Durata dell'esecuzione: " << durata.count() << " secondi" << endl;
 
     return 0;
 }
