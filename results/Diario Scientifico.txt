@@ -1,3 +1,14 @@
+06/03/2026
+Per calcolare il consumo energetico con Intel Power Gadget usare questi comandi:
+cd C:\Program Files\Intel\Power Gadget 3.6
+
+PowerLog3.0.exe -resolution 100 -file log_python.csv -cmd "C:\Users\giall\AppData\Local\Programs\Python\Python313\python.exe" C:\Users\giall\Documents\GitHub\Tesi-Supervised-ML\bin\Python\main.py
+PowerLog3.0.exe -resolution 100 -file log_java.csv -cmd java -cp C:\Users\giall\Documents\GitHub\Tesi-Supervised-ML\bin\Java;C:\Users\giall\Documents\Github\Tesi-Supervised-ML\src\Java\lib\* proj
+PowerLog3.0.exe -resolution 100 -file log_cpp.csv -cmd C:\Users\giall\Documents\GitHub\Tesi-Supervised-ML\bin\C++\programma.exe
+PowerLog3.0.exe -resolution 100 -file log_julia.csv -cmd julia C:\Users\giall\Documents\GitHub\Tesi-Supervised-ML\bin\Julia\script.jl
+PowerLog3.0.exe -resolution 100 -file log_r.csv -cmd "C:\Program Files\R\R-4.5.2\bin\Rscript.exe" C:\Users\giall\Documents\GitHub\Tesi-Supervised-ML\bin\R\progetto.R
+
+
 24/02/2026
 Per sostituire i valori nulli all'interno del dataset bisogna creare un ciclo che controlla per ogni colonna se ci sono valori nulli e nel caso li sostituisce con media o mediana in base al tipo di dato
 
