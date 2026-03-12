@@ -26,7 +26,7 @@ using MLJLinearModels
 
 start_time = time()
 
-data = CSV.read("data/10_7717_peerj_5665_dataYM2018_neuroblastoma.csv", DataFrame, header=true)
+data = CSV.read("C:/Users/giall/Documents/GitHub/Tesi-Supervised-ML/data/10_7717_peerj_5665_dataYM2018_neuroblastoma.csv", DataFrame, header=true)
 
 for col_idx in 1:(ncol(data) - 1)
     nome_colonna = names(data)[col_idx]
