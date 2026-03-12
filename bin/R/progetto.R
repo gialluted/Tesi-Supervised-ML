@@ -19,7 +19,7 @@ for (pacchetto in librerie) {
 
 start_time <- Sys.time()
 
-data <- read.csv("data/10_7717_peerj_5665_dataYM2018_neuroblastoma.csv", header = TRUE)
+data <- read.csv("C:/Users/giall/Documents/GitHub/Tesi-Supervised-ML/data/10_7717_peerj_5665_dataYM2018_neuroblastoma.csv", header = TRUE)
 
 for (col_idx in 1:(ncol(data) - 1)) {
   colonna <- data[, col_idx]
@@ -75,3 +75,5 @@ cat(sprintf("Coefficiente di Correlazione di Matthews (MCC): %.15f\n", mcc))
 end_time <- Sys.time()
 duration <- as.numeric(difftime(end_time, start_time, units = "secs"))
 cat(sprintf("Durata dell'esecuzione del programma: %f secondi\n", duration))
+
+flush.console()
