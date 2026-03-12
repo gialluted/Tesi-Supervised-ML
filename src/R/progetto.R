@@ -75,3 +75,5 @@ cat(sprintf("Coefficiente di Correlazione di Matthews (MCC): %.15f\n", mcc))
 end_time <- Sys.time()
 duration <- as.numeric(difftime(end_time, start_time, units = "secs"))
 cat(sprintf("Durata dell'esecuzione del programma: %f secondi\n", duration))
+
+flush.console()
