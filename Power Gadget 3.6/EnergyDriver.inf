@@ -1,0 +1,89 @@
+;
+; EnergyDriver.inf
+;
+
+[Version]
+Signature="$WINDOWS NT$"
+Class=Sample ; TODO: edit Class
+ClassGuid={78A1C341-4539-11d3-B88D-00C04FAD5171} ; TODO: edit ClassGuid
+Provider=%ManufacturerName%
+CatalogFile=EnergyDriver.cat
+DriverVer = 12/06/2020,23.33.53.673
+
+[DestinationDirs]
+DefaultDestDir = 12
+EnergyDriver_Device_CoInstaller_CopyFiles = 11
+
+; ================= Class section =====================
+
+[ClassInstall32]
+Addreg=SampleClassReg
+
+[SampleClassReg]
+HKR,,,0,%ClassName%
+HKR,,Icon,,-5
+
+[SourceDisksNames]
+1 = %DiskName%,,,""
+
+[SourceDisksFiles]
+EnergyDriver.sys  = 1,,
+;
+
+
+;*****************************************
+; Install Section
+;*****************************************
+
+[Manufacturer]
+%ManufacturerName%=Standard,NTamd64
+
+[Standard.NTamd64]
+%EnergyDriver.DeviceDesc%=EnergyDriver_Device, Root\EnergyDriver ; TODO: edit hw-id
+
+[EnergyDriver_Device.NT]
+CopyFiles=Drivers_Dir
+
+[Drivers_Dir]
+EnergyDriver.sys
+
+;-------------- Service installation
+[EnergyDriver_Device.NT.Services]
+AddService = EnergyDriver,%SPSVCINST_ASSOCSERVICE%, EnergyDriver_Service_Inst
+
+; -------------- KmdfHelloWorld driver install sections
+[EnergyDriver_Service_Inst]
+DisplayName    = %EnergyDriver.SVCDESC%
+ServiceType    = 1               ; SERVICE_KERNEL_DRIVER
+StartType      = 3               ; SERVICE_DEMAND_START
+ErrorControl   = 1               ; SERVICE_ERROR_NORMAL
+ServiceBinary  = %12%\EnergyDriver.sys
+
+;
+;--- KmdfHelloWorld_Device Coinstaller installation ------
+;
+
+[EnergyDriver_Device.NT.CoInstallers]
+AddReg=EnergyDriver_Device_CoInstaller_AddReg
+CopyFiles=EnergyDriver_Device_CoInstaller_CopyFiles
+
+[EnergyDriver_Device_CoInstaller_AddReg]
+;
+
+
+[EnergyDriver_Device_CoInstaller_CopyFiles]
+;
+
+
+[EnergyDriver_Device.NT.Wdf]
+KmdfService =  EnergyDriver, EnergyDriver_wdfsect
+[EnergyDriver_wdfsect]
+KmdfLibraryVersion = 1.15
+
+[Strings]
+SPSVCINST_ASSOCSERVICE= 0x00000002
+ManufacturerName="Intel Corporation" ;TODO: Replace with your manufacturer name
+ClassName="Samples" ; TODO: edit ClassName
+DiskName = "EnergyDriver Installation Disk"
+EnergyDriver.DeviceDesc = "EnergyDriver Device"
+EnergyDriver.SVCDESC = "EnergyDriver Service"
