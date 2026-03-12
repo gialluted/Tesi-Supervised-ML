@@ -140,7 +140,7 @@ public class proj {
         
         long tempoInizio = System.nanoTime();
 
-        String percorsoFile = "../../data/10_7717_peerj_5665_dataYM2018_neuroblastoma.csv";
+        String percorsoFile = "C:/Users/giall/Documents/GitHub/Tesi-Supervised-ML/data/10_7717_peerj_5665_dataYM2018_neuroblastoma.csv";
         Instances dati = caricaDatiDaCSV(percorsoFile);
 
         imputaValoriMancanti(dati);
