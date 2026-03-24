@@ -91,7 +91,7 @@ int main() {
 
     auto tempo_inizio = chrono::high_resolution_clock::now();
 
-    const string percorso_file = "C:\\Users\\giall\\Documents\\GitHub\\Tesi-Supervised-ML\\data\\10_7717_peerj_5665_dataYM2018_neuroblastoma.csv";
+    const string percorso_file = "C:\\Users\\giall\\Documents\\GitHub\\Tesi-Supervised-ML\\data\\Takashi2019_diabetes_type1_dataset_preprocessed.csv";
     
     ifstream file(percorso_file);
 

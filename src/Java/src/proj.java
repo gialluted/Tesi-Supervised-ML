@@ -140,7 +140,7 @@ public class proj {
         
         long tempoInizio = System.nanoTime();
 
-        String percorsoFile = "C:/Users/giall/Documents/GitHub/Tesi-Supervised-ML/data/10_7717_peerj_5665_dataYM2018_neuroblastoma.csv";
+        String percorsoFile = "C:/Users/giall/Documents/GitHub/Tesi-Supervised-ML/data/Takashi2019_diabetes_type1_dataset_preprocessed.csv";
         Instances dati = caricaDatiDaCSV(percorsoFile);
 
         imputaValoriMancanti(dati);
@@ -162,6 +162,10 @@ public class proj {
                 LinearRegression.SELECTION_NONE,
                 LinearRegression.TAGS_SELECTION
             ));
+
+            modello.setRidge(0.0);
+            modello.setEliminateColinearAttributes(false);
+            
             modello.buildClassifier(setAddestramento);
 
             predizioni[i] = modello.classifyInstance(setTest.instance(0));

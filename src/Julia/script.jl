@@ -26,7 +26,7 @@ using MLJLinearModels
 
 start_time = time()
 
-data = CSV.read("C:/Users/giall/Documents/GitHub/Tesi-Supervised-ML/data/10_7717_peerj_5665_dataYM2018_neuroblastoma.csv", DataFrame, header=true)
+data = CSV.read("C:/Users/giall/Documents/GitHub/Tesi-Supervised-ML/data/Takashi2019_diabetes_type1_dataset_preprocessed.csv", DataFrame, header=true)
 
 for col_idx in 1:(ncol(data) - 1)
     nome_colonna = names(data)[col_idx]
@@ -60,6 +60,8 @@ for col_idx in 1:(ncol(data) - 1)
         tipo_imputazione = "media"
     end
     
+    data[!, col_idx] = convert.(Union{Float64, Missing}, data[!, col_idx])
+
     # Sostituisci i valori mancanti
     for row_idx in 1:nrow(data)
         if ismissing(data[row_idx, col_idx])
@@ -67,6 +69,8 @@ for col_idx in 1:(ncol(data) - 1)
         end
     end
 end
+
+disallowmissing!(data)
 
 y = data[:, end]
 X = select(data, Not(ncol(data)))

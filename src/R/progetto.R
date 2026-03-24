@@ -19,7 +19,7 @@ for (pacchetto in librerie) {
 
 start_time <- Sys.time()
 
-data <- read.csv("C:/Users/giall/Documents/GitHub/Tesi-Supervised-ML/data/10_7717_peerj_5665_dataYM2018_neuroblastoma.csv", header = TRUE)
+data <- read.csv("C:/Users/giall/Documents/GitHub/Tesi-Supervised-ML/data/Takashi2019_diabetes_type1_dataset_preprocessed.csv", header = TRUE)
 
 for (col_idx in 1:(ncol(data) - 1)) {
   colonna <- data[, col_idx]

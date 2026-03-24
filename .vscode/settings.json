@@ -1,3 +1,4 @@
 {
-    "java.configuration.updateBuildConfiguration": "interactive"
+    "java.configuration.updateBuildConfiguration": "interactive",
+    "cmake.sourceDirectory": "C:/Users/giall/Documents/GitHub/Tesi-Supervised-ML/src/C++/eigen-5.0.0"
 }
