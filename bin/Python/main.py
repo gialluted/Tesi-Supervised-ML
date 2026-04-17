@@ -22,64 +22,65 @@ from sklearn.linear_model import LinearRegression
 from sklearn.model_selection import LeaveOneOut, cross_val_predict
 from sklearn.metrics import mean_squared_error, r2_score, matthews_corrcoef
 
-start = time.time()
+for i in range(2):
+    start = time.time()
 
-data = np.genfromtxt('C:\\Users\\giall\\Documents\\GitHub\\Tesi-Supervised-ML\\data\\Takashi2019_diabetes_type1_dataset_preprocessed.csv', 
+    data = np.genfromtxt('C:\\Users\\giall\\Documents\\GitHub\\Tesi-Supervised-ML\\data\\Takashi2019_diabetes_type1_dataset_preprocessed.csv', 
                      delimiter=',', skip_header=1)
 
-variabili = data[:, :-1]
-outcome = data[:, -1]
+    variabili = data[:, :-1]
+    outcome = data[:, -1]
 
-#np.set_printoptions(threshold=np.inf)
-#print(variabili)
-#print(outcome)
+    #np.set_printoptions(threshold=np.inf)
+    #print(variabili)
+    #print(outcome)
 
-for indice_colonna in range(variabili.shape[1]):
-    colonna = variabili[:, indice_colonna]
+    for indice_colonna in range(variabili.shape[1]):
+        colonna = variabili[:, indice_colonna]
     
-    # Identifica i valori non mancanti
-    valori_validi = colonna[~np.isnan(colonna)]
+        # Identifica i valori non mancanti
+        valori_validi = colonna[~np.isnan(colonna)]
     
-    if len(valori_validi) == 0:
-        continue
+        if len(valori_validi) == 0:
+            continue
     
-    # Conta i valori mancanti
-    numero_mancanti = np.isnan(colonna).sum()
+        # Conta i valori mancanti
+        numero_mancanti = np.isnan(colonna).sum()
     
-    if numero_mancanti == 0:
-        continue
+        if numero_mancanti == 0:
+            continue
     
-    # Verifica se la colonna è binaria (contiene solo 0 e 1)
-    valori_unici = np.unique(valori_validi)
-    e_binaria = np.all(np.isin(valori_unici, [0, 1]))
+        # Verifica se la colonna è binaria (contiene solo 0 e 1)
+        valori_unici = np.unique(valori_validi)
+        e_binaria = np.all(np.isin(valori_unici, [0, 1]))
     
-    if e_binaria:
-        # Colonna binaria: usa la MEDIANA
-        valore_per_imputazione = np.median(valori_validi)
-        tipo_imputazione = "mediana"
-    else:
-        # Colonna reale: usa la MEDIA
-        valore_per_imputazione = np.mean(valori_validi)
-        tipo_imputazione = "media"
+        if e_binaria:
+            # Colonna binaria: usa la MEDIANA
+            valore_per_imputazione = np.median(valori_validi)
+            tipo_imputazione = "mediana"
+        else:
+            # Colonna reale: usa la MEDIA
+            valore_per_imputazione = np.mean(valori_validi)
+            tipo_imputazione = "media"
     
-    # Sostituisci i valori mancanti
-    variabili[np.isnan(colonna), indice_colonna] = valore_per_imputazione
+        # Sostituisci i valori mancanti
+        variabili[np.isnan(colonna), indice_colonna] = valore_per_imputazione
 
-predictions = cross_val_predict(LinearRegression(), variabili, outcome, cv=LeaveOneOut())
+    predictions = cross_val_predict(LinearRegression(), variabili, outcome, cv=LeaveOneOut())
 
-for i in range(len(predictions)):
+    for i in range(len(predictions)):
 
-    if predictions[i] > 0.5:
+        if predictions[i] > 0.5:
 
-        predictions[i] = 1
+            predictions[i] = 1
 
-    else:
+        else:
 
-        predictions[i] = 0
+            predictions[i] = 0
 
-#print(predictions)
+    #print(predictions)
 
-mcc = matthews_corrcoef(outcome, predictions)
-print(f"Coefficiente di Correlazione di Matthews (MCC): {mcc}")
+    mcc = matthews_corrcoef(outcome, predictions)
+    print(f"Coefficiente di Correlazione di Matthews (MCC): {mcc}")
 
-print("Durata dell'esecuzione del programma: %s secondi" % (time.time() - start))
+    print("Durata dell'esecuzione del programma: %s secondi" % (time.time() - start))
