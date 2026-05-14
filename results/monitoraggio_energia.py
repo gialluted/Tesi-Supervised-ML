@@ -1,16 +1,35 @@
 import subprocess
+import sys
+
+libraries = ["codecarbon"]
+
+for lib in libraries:
+    try:
+        __import__(lib)
+        print(f"{lib} è già installato")
+    except ImportError:
+        print(f"{lib} non trovato. Installazione in corso...")
+        try:
+            subprocess.check_call([sys.executable, "-m", "pip", "install", lib])
+            print(f"{lib} installato con successo")
+        except subprocess.CalledProcessError as e:
+            print(f"Errore nell'installazione di {lib}: {e}")
+            sys.exit(1)
+
 from codecarbon import EmissionsTracker
 
 def esegui_e_monitora():
     # 1. Definisci il percorso del dataset da passare in automatico a tutti gli script.
     # Il "\n" alla fine è fondamentale: simula la pressione del tasto "Invio"
-    percorso_dataset = r"C:\Users\giall\Documents\GitHub\Tesi-Supervised-ML\data\Takashi2019_diabetes_type1_dataset_preprocessed.csv" + "\n"
+    percorso_dataset = r"..\..\data\Takashi2019_diabetes_type1_dataset_preprocessed.csv" + "\n"
 
     # 2. Configura i modelli.
     # Struttura: "Nome Modello": (["comando", "nome_file"], r"Cartella_di_lavoro", input_automatico)
     # ATTENZIONE: Modifica i percorsi delle cartelle (cwd) con quelli reali del tuo PC.
     modelli = {
-        "C++_Model":    (["programma.exe"], r"..\bin\C++", percorso_dataset) # Su Mac/Linux usa ["./programma.exe"]
+        "C++_Model":    ([r"..\bin\C++\programma.exe"]
+                         , r"..\bin\C++"
+                         , percorso_dataset) # Su Mac/Linux usa ["./programma.exe"]
     }
 
     # 3. Inizializza il tracker di CodeCarbon (campionamento ogni 1 secondo)
