@@ -2,6 +2,7 @@
 #include <vector>
 #include <fstream>
 #include <sstream>
+#include <iostream>
 #include <string>
 #include <chrono>
 #include <iomanip>
@@ -91,12 +92,14 @@ int main() {
 
     auto tempo_inizio = chrono::high_resolution_clock::now();
 
-    const string percorso_file = "C:\\Users\\giall\\Documents\\GitHub\\Tesi-Supervised-ML\\data\\Takashi2019_diabetes_type1_dataset_preprocessed.csv";
-    
-    ifstream file(percorso_file);
+    std::string percorso_dataset;
+    std::cout << "Inserisci il percorso del dataset:" << std::endl;
+    std::getline(std::cin, percorso_dataset);
+
+    ifstream file(percorso_dataset);
 
     if (!file.is_open()) {
-        cerr << "Errore: impossibile aprire il file " << percorso_file << endl;
+        cerr << "Errore: impossibile aprire il file " << percorso_dataset << endl;
         return 1;
     }
 
