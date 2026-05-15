@@ -1,3 +1,20 @@
+06/05/2026
+Lo script codecarbon funziona su windows ma da problemi su linux (causa percorsi file ecc.), perciò ho deciso di creare un altro file simile per il calcolo su linux
+
+
+27/04/2026
+Per differenziare tra i vari cicli del loop in base al linguaggio o deciso di usare un ciclo for che va a pescare i dati diversi (percorsi dei file) da una tupla con 5 array diversi, uno per linguaggio
+
+
+21/04/2026
+Devo creare uno script "master" in python che esegue tutti i 5 script nei diversi linguaggi tramite un loop
+
+
+17/04/2026
+Ho deciso di passare a CodeCarbon per il calcolo enrgetico su linux che su windows
+A questo punto conviene calcolare anche il tempo direttamente dal file python con codecarbon
+
+
 15/04/2026
 Intel power gadget non è supportato su linux
 
