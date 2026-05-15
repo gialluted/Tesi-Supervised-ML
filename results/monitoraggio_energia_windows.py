@@ -31,7 +31,6 @@ modelli = [
 tracker = EmissionsTracker(measure_power_secs=1, project_name="Confronto_ML")
  
 for nome_modello, comando, cartella_lavoro, input_simulato in modelli:
-    print(f"{'-'*50}")
     print(f"Avvio monitoraggio per: {nome_modello}")
     print(f"Cartella di lavoro: {cartella_lavoro}")
  
@@ -55,5 +54,4 @@ for nome_modello, comando, cartella_lavoro, input_simulato in modelli:
         tracker.stop_task()
  
 tracker.stop()
-print(f"{'-'*50}")
 print("Monitoraggio completato! Controlla il file 'emissions.csv' per i risultati sul consumo energetico.")
