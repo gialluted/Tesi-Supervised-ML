@@ -27,9 +27,11 @@ def esegui_e_monitora():
     # Struttura: "Nome Modello": (["comando", "nome_file"], r"Cartella_di_lavoro", input_automatico)
     # ATTENZIONE: Modifica i percorsi delle cartelle (cwd) con quelli reali del tuo PC.
     modelli = {
-        "C++_Model":    ([r"..\bin\C++\programma.exe"]
-                         , r"..\bin\C++"
-                         , percorso_dataset) # Su Mac/Linux usa ["./programma.exe"]
+        "C++_Model":    ([r"..\bin\C++\programma.exe"], r"..\bin\C++", percorso_dataset),
+        "Python_Model": ([sys.executable, "main.py"], r"..\bin\Python", percorso_dataset),
+        "R_Model":      (["Rscript", "progetto.R"], r"..\bin\R", percorso_dataset),
+        "Julia_Model":  (["Julia", "script.jl"], r"..\bin\Julia", percorso_dataset),
+        "Java_Model":   (["java", "-cp", r".;..\..\src\Java\lib\*", "proj"], r"..\bin\Java", percorso_dataset)
     }
 
     # 3. Inizializza il tracker di CodeCarbon (campionamento ogni 1 secondo)

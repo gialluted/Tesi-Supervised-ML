@@ -5,6 +5,7 @@ import weka.core.converters.CSVLoader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class proj {
 
@@ -140,7 +141,9 @@ public class proj {
         
         long tempoInizio = System.nanoTime();
 
-        String percorsoFile = "C:/Users/giall/Documents/GitHub/Tesi-Supervised-ML/data/Takashi2019_diabetes_type1_dataset_preprocessed.csv";
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Inserisci il percorso del dataset:");
+        String percorsoFile = scanner.nextLine();
         Instances dati = caricaDatiDaCSV(percorsoFile);
 
         imputaValoriMancanti(dati);

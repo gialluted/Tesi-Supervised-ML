@@ -19,7 +19,9 @@ for (pacchetto in librerie) {
 
 start_time <- Sys.time()
 
-data <- read.csv("C:/Users/giall/Documents/GitHub/Tesi-Supervised-ML/data/Takashi2019_diabetes_type1_dataset_preprocessed.csv", header = TRUE)
+cat("Inserisci il percorso del dataset:\n")
+percorso_dataset <- readLines("stdin", n = 1)
+data <- read.csv(percorso_dataset, header = TRUE)
 
 for (col_idx in 1:(ncol(data) - 1)) {
   colonna <- data[, col_idx]

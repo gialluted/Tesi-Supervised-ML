@@ -24,8 +24,9 @@ from sklearn.metrics import mean_squared_error, r2_score, matthews_corrcoef
 
 start = time.time()
 
-data = np.genfromtxt('C:\\Users\\giall\\Documents\\GitHub\\Tesi-Supervised-ML\\data\\Takashi2019_diabetes_type1_dataset_preprocessed.csv', 
-                     delimiter=',', skip_header=1)
+print("Inserisci il percorso del dataset:")
+percorso_dataset = input().strip()
+data = np.genfromtxt(percorso_dataset, delimiter=',', skip_header=1)
 
 variabili = data[:, :-1]
 outcome = data[:, -1]

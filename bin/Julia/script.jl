@@ -26,7 +26,9 @@ using MLJLinearModels
 
 start_time = time()
 
-data = CSV.read("C:/Users/giall/Documents/GitHub/Tesi-Supervised-ML/data/Takashi2019_diabetes_type1_dataset_preprocessed.csv", DataFrame, header=true)
+println("Inserisci il percorso del dataset:")
+percorso_dataset = readline()
+data = CSV.read(percorso_dataset, DataFrame, header=true)
 
 for col_idx in 1:(ncol(data) - 1)
     nome_colonna = names(data)[col_idx]
