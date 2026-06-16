@@ -1,3 +1,6 @@
+dir.create(Sys.getenv("R_LIBS_USER"), recursive = TRUE, showWarnings = FALSE)
+.libPaths(c(Sys.getenv("R_LIBS_USER"), .libPaths()))
+
 librerie <- c("caret", "mltools")
 
 for (pacchetto in librerie) {
@@ -5,7 +8,9 @@ for (pacchetto in librerie) {
     cat(sprintf("%s non trovato. Installazione in corso...\n", pacchetto))
     
     tryCatch({
-      install.packages(pacchetto, dependencies = TRUE, repos = "https://cran.r-project.org")
+      install.packages(pacchetto, dependencies = TRUE,
+                 repos = "https://cran.r-project.org",
+                 lib = Sys.getenv("R_LIBS_USER"))
       library(pacchetto, character.only = TRUE)
       cat(sprintf("%s installato e caricato con successo\n", pacchetto))
     }, error = function(e) {

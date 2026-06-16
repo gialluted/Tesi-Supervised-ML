@@ -18,7 +18,7 @@ for lib in libraries:
 
 from codecarbon import EmissionsTracker
 
-percorso_dataset = "../../data/Takashi2019_diabetes_type1_dataset_preprocessed.csv" + "\n"
+percorso_dataset = "../../Data/Takashi2019_diabetes_type1_dataset_preprocessed.csv" + "\n"
 
 modelli = [
     ("C++",    ["./programma"],                                              "../bin/C++",    percorso_dataset),
