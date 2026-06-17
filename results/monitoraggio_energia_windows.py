@@ -27,31 +27,37 @@ modelli = [
     ("Julia",  ["Julia", "script.jl"],                               r"..\bin\Julia",  percorso_dataset),
     ("Java",   ["java", "-cp", r".;..\..\src\Java\lib\*", "proj"],   r"..\bin\Java",   percorso_dataset),
 ]
- 
+
+n_esecuzioni = 2
+
 tracker = EmissionsTracker(measure_power_secs=1, project_name="Confronto_ML")
- 
-for nome_modello, comando, cartella_lavoro, input_simulato in modelli:
-    print(f"Avvio monitoraggio per: {nome_modello}")
-    print(f"Cartella di lavoro: {cartella_lavoro}")
- 
-    tracker.start_task(nome_modello)
- 
-    try:
-        subprocess.run(
-            comando,
-            cwd=cartella_lavoro,
-            input=input_simulato,
-            text=True,
-            check=True
-        )
-        print(f"Esecuzione di {nome_modello} completata con successo.")
- 
-    except subprocess.CalledProcessError as e:
-        print(f"ERRORE: Il modello {nome_modello} ha generato un errore durante l'esecuzione: {e}")
-    except FileNotFoundError:
-        print(f"ERRORE: Impossibile trovare il comando o la cartella per {nome_modello}.")
-    finally:
-        tracker.stop_task()
- 
+
+for ripetizione in range(1, n_esecuzioni + 1):
+    print(f"  ESECUZIONE {ripetizione} di {n_esecuzioni}")
+
+    for nome_modello, comando, cartella_lavoro, input_simulato in modelli:
+        nome_task = f"{nome_modello}_run{ripetizione}"
+        print(f"\nAvvio monitoraggio per: {nome_modello} (run {ripetizione})")
+        print(f"Cartella di lavoro: {cartella_lavoro}")
+
+        tracker.start_task(nome_task)
+
+        try:
+            subprocess.run(
+                comando,
+                cwd=cartella_lavoro,
+                input=input_simulato,
+                text=True,
+                check=True
+            )
+            print(f"Esecuzione di {nome_modello} (run {ripetizione}) completata con successo.")
+
+        except subprocess.CalledProcessError as e:
+            print(f"ERRORE: Il modello {nome_modello} ha generato un errore durante l'esecuzione: {e}")
+        except FileNotFoundError:
+            print(f"ERRORE: Impossibile trovare il comando o la cartella per {nome_modello}.")
+        finally:
+            tracker.stop_task()
+
 tracker.stop()
-print("Monitoraggio completato! Controlla il file 'emissions.csv' per i risultati sul consumo energetico.")
+print("\nMonitoraggio completato! Controlla il file 'emissions.csv' per i risultati sul consumo energetico.")

@@ -21,37 +21,43 @@ from codecarbon import EmissionsTracker
 percorso_dataset = "../../Data/Takashi2019_diabetes_type1_dataset_preprocessed.csv" + "\n"
 
 modelli = [
-    ("C++",    ["./programma"],                                              "../bin/C++",    percorso_dataset),
-    ("Python", [sys.executable, "main.py"],                                  "../bin/Python", percorso_dataset),
-    ("R",      ["Rscript", "progetto.R"],                                    "../bin/R",      percorso_dataset),
-    ("Julia",  ["julia", "script.jl"],                                       "../bin/Julia",  percorso_dataset),
-    ("Java",   ["java", "-cp", ".:../../src/Java/lib/*", "proj"],            "../bin/Java",   percorso_dataset),
+    ("C++",    ["./programma"],                                    "../bin/C++",    percorso_dataset),
+    ("Python", [sys.executable, "main.py"],                        "../bin/Python", percorso_dataset),
+    ("R",      ["Rscript", "progetto.R"],                          "../bin/R",      percorso_dataset),
+    ("Julia",  ["julia", "script.jl"],                             "../bin/Julia",  percorso_dataset),
+    ("Java",   ["java", "-cp", ".:../../src/Java/lib/*", "proj"],  "../bin/Java",   percorso_dataset),
 ]
+
+n_esecuzioni = 2
 
 tracker = EmissionsTracker(measure_power_secs=1, project_name="Confronto_ML")
 
-for nome_modello, comando, cartella_lavoro, input_simulato in modelli:
-    print(f"Avvio monitoraggio per: {nome_modello}")
-    print(f"Cartella di lavoro: {cartella_lavoro}")
+for ripetizione in range(1, n_esecuzioni + 1):
+    print(f"  ESECUZIONE {ripetizione} di {n_esecuzioni}")
 
-    tracker.start_task(nome_modello)
+    for nome_modello, comando, cartella_lavoro, input_simulato in modelli:
+        nome_task = f"{nome_modello}_run{ripetizione}"
+        print(f"\nAvvio monitoraggio per: {nome_modello} (run {ripetizione})")
+        print(f"Cartella di lavoro: {cartella_lavoro}")
 
-    try:
-        subprocess.run(
-            comando,
-            cwd=cartella_lavoro,
-            input=input_simulato,
-            text=True,
-            check=True
-        )
-        print(f"Esecuzione di {nome_modello} completata con successo.")
+        tracker.start_task(nome_task)
 
-    except subprocess.CalledProcessError as e:
-        print(f"ERRORE: Il modello {nome_modello} ha generato un errore durante l'esecuzione: {e}")
-    except FileNotFoundError:
-        print(f"ERRORE: Impossibile trovare il comando o la cartella per {nome_modello}.")
-    finally:
-        tracker.stop_task()
+        try:
+            subprocess.run(
+                comando,
+                cwd=cartella_lavoro,
+                input=input_simulato,
+                text=True,
+                check=True
+            )
+            print(f"Esecuzione di {nome_modello} (run {ripetizione}) completata con successo.")
+
+        except subprocess.CalledProcessError as e:
+            print(f"ERRORE: Il modello {nome_modello} ha generato un errore durante l'esecuzione: {e}")
+        except FileNotFoundError:
+            print(f"ERRORE: Impossibile trovare il comando o la cartella per {nome_modello}.")
+        finally:
+            tracker.stop_task()
 
 tracker.stop()
-print("Monitoraggio completato! Controlla il file 'emissions.csv' per i risultati sul consumo energetico.")
+print("\nMonitoraggio completato! Controlla il file 'emissions.csv' per i risultati sul consumo energetico.")
